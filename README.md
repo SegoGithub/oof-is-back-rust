@@ -28,7 +28,7 @@ After Roblox changed the oof sound I started to replace it with custom sounds, I
 
 ## How to compile
 
-[Prerequisites](https://github.com/nodejs/node/blob/HEAD/BUILDING.md#prerequisites)
+[Prerequisites](https://www.rust-lang.org/learn/get-started)
 
 ```bash
 cargo build --release
