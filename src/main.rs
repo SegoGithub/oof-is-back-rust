@@ -1,5 +1,7 @@
 // this app is very messy but it will be cleaned up soon
 
+use serde_json::Value;
+
 #[cfg(target_os = "windows")]
 mod crossplatform;
 
@@ -29,10 +31,35 @@ fn main() {
             choose_sound()
         } else if input == 3 {
             println!("Checking for updates...");
-            println!("update checker is not implemented yet");
-            println!("Returning to main menu in 3 seconds...");
-            std::thread::sleep(std::time::Duration::from_secs(3));
-            main_menu()
+            // get current version
+            let current_version = env!("CARGO_PKG_VERSION");
+            println!("Current version: {}", current_version);
+            // get latest version from github api
+            let client = reqwest::blocking::Client::new();
+            let res = client
+                .get("https://api.github.com/repos/SegoGithub/oof-is-back-rust/releases/latest")
+                .header("User-Agent", "DeathSound")
+                .send()
+                .unwrap();
+            let json: Value = serde_json::from_str(&res.text().unwrap()).unwrap();
+            let latest_version = json["tag_name"].to_string();
+            let latest_version = latest_version.replace("\"", "");
+            println!("Latest version: {}", latest_version);
+            // compare versions
+            if current_version == latest_version {
+                println!("You are up to date!\nPress enter to continue...");
+                std::io::stdin()
+                    .read_line(&mut String::new())
+                    .expect("Failed to read line");
+                main_menu()
+            } else {
+                println!("There is an update available\nDownload it here: https://github.com/SegoGithub/oof-is-back-rust/releases/latest\nPress enter to continue...");
+                std::io::stdin()
+                    .read_line(&mut String::new())
+                    .expect("Failed to read line");
+                main_menu()
+            }
+
         } else if input == 4 {
             println!("Exiting...");
             std::process::exit(0);
@@ -93,9 +120,9 @@ fn main() {
             std::thread::sleep(std::time::Duration::from_secs(2));
             main_menu()
         } else if input == 8 {
-            println!("Custom sound is not supported yet 😢");
+            crossplatform::custom_sound();
+            println!("Returning to main menu in 2 seconds..");
             std::thread::sleep(std::time::Duration::from_secs(2));
-            main_menu()
         } else if input == 9 {
             main_menu()
         } else {
