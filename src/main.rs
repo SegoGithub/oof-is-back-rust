@@ -74,7 +74,7 @@ fn main() {
         crossplatform::download_sound();
         console::Term::clear_screen(&console::Term::stdout());
         println!("Choose a new death sound");
-        println!("Enter a number [1-4]:");
+        println!("Enter a number [1-9]:");
         println!("[1] Oof\n[2] Vine Boom Sound Effect (Bass Boosted)\n[3] GAH DAM\n[4] Half Life\n[5] Old Minecraft Death Sound\n[6] Lego Yoda Death\n[7] AUUUUUUGHHH\n[8] Custom Sound\n[9] Return to main menu");
         let mut input = String::new();
         std::io::stdin()

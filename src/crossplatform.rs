@@ -276,132 +276,35 @@ pub fn download_sound() {
                 + "\\AppData\\Roaming\\oof-is-back\\sounds",
         )
         .unwrap();
-        println!("[1/7] Downloading 'Oof' death sound");
-        fs::create_dir_all(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\oof",
-        )
-        .unwrap();
-        let mut resp = reqwest::blocking::get(
-            "https://github.com/SegoGithub/oof-is-back/raw/main/sounds/oof/ouch.ogg",
-        )
-        .unwrap();
-        let mut out = File::create(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\oof\\ouch.ogg",
-        )
-        .unwrap();
-        io::copy(&mut resp, &mut out).unwrap();
-        println!("[2/7] Downloading 'Vine Boom Sound Effect (Bass Boosted)' death sound");
-        fs::create_dir_all(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\vineboom",
-        )
-        .unwrap();
-        let mut resp = reqwest::blocking::get(
-            "https://github.com/SegoGithub/oof-is-back/raw/main/sounds/vineboom/ouch.ogg",
-        )
-        .unwrap();
-        let mut out = File::create(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\vineboom\\ouch.ogg",
-        )
-        .unwrap();
-        io::copy(&mut resp, &mut out).unwrap();
-        println!("[3/7] Downloading 'GAH DAM' death sound");
-        fs::create_dir_all(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\gahdam",
-        )
-        .unwrap();
-        let mut resp = reqwest::blocking::get(
-            "https://github.com/SegoGithub/oof-is-back/raw/main/sounds/gahdam/ouch.ogg",
-        )
-        .unwrap();
-        let mut out = File::create(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\gahdam\\ouch.ogg",
-        )
-        .unwrap();
-        io::copy(&mut resp, &mut out).unwrap();
-        println!("[4/7] Downloading 'Half Life' death sound");
-        fs::create_dir_all(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\hl",
-        )
-        .unwrap();
-        let mut resp = reqwest::blocking::get(
-            "https://github.com/SegoGithub/oof-is-back/raw/main/sounds/hl/ouch.ogg",
-        )
-        .unwrap();
-        let mut out = File::create(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\hl\\ouch.ogg",
-        )
-        .unwrap();
-        io::copy(&mut resp, &mut out).unwrap();
-        println!("[5/7] Downloading 'Old Minecraft Death Sound' death sound");
-        fs::create_dir_all(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\mc",
-        )
-        .unwrap();
-        let mut resp = reqwest::blocking::get(
-            "https://github.com/SegoGithub/oof-is-back/raw/main/sounds/mc/ouch.ogg",
-        )
-        .unwrap();
-        let mut out = File::create(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\mc\\ouch.ogg",
-        )
-        .unwrap();
-        io::copy(&mut resp, &mut out).unwrap();
-        println!("[6/7] Downloading 'Lego Yoda Death' death sound");
-        fs::create_dir_all(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\yoda",
-        )
-        .unwrap();
-        let mut resp = reqwest::blocking::get(
-            "https://github.com/SegoGithub/oof-is-back/raw/main/sounds/yoda/ouch.ogg",
-        )
-        .unwrap();
-        let mut out = File::create(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\yoda\\ouch.ogg",
-        )
-        .unwrap();
-        io::copy(&mut resp, &mut out).unwrap();
-        println!("[7/7] Downloading 'AUUUUUUGHHH' death sound");
-        fs::create_dir_all(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\augh",
-        )
-        .unwrap();
-        let mut resp = reqwest::blocking::get(
-            "https://github.com/SegoGithub/oof-is-back/raw/main/sounds/augh/ouch.ogg",
-        )
-        .unwrap();
-        let mut out = File::create(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds\\augh\\ouch.ogg",
-        )
-        .unwrap();
-        io::copy(&mut resp, &mut out).unwrap();
+        println!("Downloading sounds...");
+        fn download(sound: String) {
+            fs::create_dir_all(
+                "C:\\Users\\".to_string()
+                    + &env::var("USERNAME").unwrap()
+                    + "\\AppData\\Roaming\\oof-is-back\\sounds\\" + &sound,
+            )
+            .unwrap();
+            let mut resp = reqwest::blocking::get(
+                "https://github.com/SegoGithub/oof-is-back/raw/main/sounds/".to_string() + &sound + "/ouch.ogg",
+            )
+            .unwrap();
+            let mut out = File::create(
+                "C:\\Users\\".to_string()
+                    + &env::var("USERNAME").unwrap()
+                    + "\\AppData\\Roaming\\oof-is-back\\sounds\\" + &sound + "\\ouch.ogg",
+            )
+            .unwrap();
+            io::copy(&mut resp, &mut out).unwrap();
+        }
+        download("oof".to_string());
+        download("vineboom".to_string());
+        download("gahdam".to_string());
+        download("hl".to_string());
+        download("oof".to_string());
+        download("hl".to_string());
+        download("mc".to_string());
+        download("yoda".to_string());
+        download("augh".to_string());
         println!("✅ Done!");
         // sleep for 2 seconds
         std::thread::sleep(std::time::Duration::from_secs(2));
