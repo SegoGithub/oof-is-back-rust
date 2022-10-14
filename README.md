@@ -19,7 +19,7 @@
 * Lego Yoda Death
 * AUUUUUUGHHH
 
-## How is this better than oof-is-back?
+## How is this better than [oof-is-back](https://github.com/SegoGithub/oof-is-back)?
 1. Rewritten in Rust which means smaller file sizes and faster application.
 2. Cross-platform (soon)
 
