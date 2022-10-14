@@ -6,8 +6,8 @@
 <p align="center"><img src="http://ForTheBadge.com/images/badges/built-with-love.svg" /></>
 
 ## How to use
-* Simply download the exe file from the download link above and run it.
-* Use the up and down arrow keys to choose and Enter to confirm your choise.
+* [Get the latest version](https://github.com/SegoGithub/oof-is-back-rust/releases/latest)
+* Input a number then press enter to confirm your choice.
 * Done!
 
 ## Sounds Included
@@ -19,14 +19,16 @@
 * Lego Yoda Death
 * AUUUUUUGHHH
 
-## How is this better than [oof-is-back](https://github.com/SegoGithub/oof-is-back)?
-1. Rewritten in Rust which means smaller file sizes and faster application.
-2. Cross-platform (soon)
+## Features:
+* Prevent Roblox updates from replacing your oof sound
+* Cross-platform (soon)
+* Multiple sound choices
+* Ability to use a custom sound
 
 ## Why I made this?
 After Roblox changed the oof sound I started to replace it with custom sounds, I wanted an easier way to change the death sound. So I made this app. Also to help other people easily change their oof sound.
 
-## How to compile
+## How to compile (advanced)
 
 [Prerequisites](https://www.rust-lang.org/learn/get-started)
 
