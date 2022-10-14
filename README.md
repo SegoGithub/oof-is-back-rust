@@ -5,6 +5,8 @@
                   <img src="https://img.shields.io/github/license/SegoGithub/oof-is-back-rust?style=for-the-badge" /></p>
 <p align="center"><img src="http://ForTheBadge.com/images/badges/built-with-love.svg" /></>
 
+![CLI](https://user-images.githubusercontent.com/71465609/195947466-ca933b2d-76d4-4d6d-9fdb-dbb461b039ce.gif)
+
 ## How to use
 * [Get the latest version](https://github.com/SegoGithub/oof-is-back-rust/releases/latest)
 * Input a number then press enter to confirm your choice.
@@ -24,6 +26,7 @@
 * Cross-platform (soon)
 * Multiple sound choices
 * Ability to use a custom sound
+* Play your current death sound
 
 ## Why I made this?
 After Roblox changed the oof sound I started to replace it with custom sounds, I wanted an easier way to change the death sound. So I made this app. Also to help other people easily change their oof sound.
