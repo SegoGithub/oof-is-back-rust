@@ -12,3 +12,6 @@ Cargo.lock
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+
+# added by me 😀 (why are the windows emojis so weird)
+custom_sound
