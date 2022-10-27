@@ -6,6 +6,10 @@ use serde_json::Value;
 mod crossplatform;
 
 fn main() {
+    // fix for windows terminal closing
+    #[cfg(target_os = "windows")]
+    crossplatform::fix_terminal();
+
     // wait for user to enter a number
     crossplatform::path();
     fn main_menu() {
@@ -53,7 +57,7 @@ fn main() {
                     .expect("Failed to read line");
                 main_menu()
             } else {
-                println!("There is an update available\nDownload it here: https://github.com/SegoGithub/oof-is-back-rust/releases/latest\nPress enter to continue...");
+                println!("There is an update available!\nDownload it here: https://github.com/SegoGithub/oof-is-back-rust/releases/latest\nPress enter to continue...");
                 std::io::stdin()
                     .read_line(&mut String::new())
                     .expect("Failed to read line");
@@ -64,18 +68,14 @@ fn main() {
             println!("Exiting...");
             std::process::exit(0);
         } else {
-            println!("Invalid input!");
-            print!("Returning to main menu in 3 seconds...");
+            println!("Invalid input!\nReturning to main menu in 3 seconds...");
             std::thread::sleep(std::time::Duration::from_secs(3));
             main_menu()
         }
     }
     fn choose_sound() {
-        crossplatform::download_sound();
         console::Term::clear_screen(&console::Term::stdout());
-        println!("Choose a new death sound");
-        println!("Enter a number [1-9]:");
-        println!("[1] Oof\n[2] Vine Boom Sound Effect (Bass Boosted)\n[3] GAH DAM\n[4] Half Life\n[5] Old Minecraft Death Sound\n[6] Lego Yoda Death\n[7] AUUUUUUGHHH\n[8] Custom Sound\n[9] Return to main menu");
+        println!("Choose a new death sound\nEnter a number [1-9]:\n[1] Oof\n[2] Vine Boom Sound Effect (Bass Boosted)\n[3] GAH DAM\n[4] Half Life\n[5] Old Minecraft Death Sound\n[6] Lego Yoda Death\n[7] AUUUUUUGHHH\n[8] Custom Sound\n[9] Return to main menu");
         let mut input = String::new();
         std::io::stdin()
             .read_line(&mut input)
@@ -126,8 +126,7 @@ fn main() {
         } else if input == 9 {
             main_menu()
         } else {
-            println!("Invalid input!");
-            print!("Returning to main menu in 3 seconds...");
+            println!("Invalid input!\nReturning to main menu in 3 seconds...");
             std::thread::sleep(std::time::Duration::from_secs(3));
             main_menu()
         }

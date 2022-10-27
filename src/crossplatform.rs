@@ -1,10 +1,9 @@
-
 // WINDOWS ⊞
 
 #[cfg(target_os = "windows")]
 pub fn path() {
-    use std::{fs, env};
     use console::style;
+    use std::{env, fs};
     static USERNAME: &str = "USERNAME";
     // list all the files in %localappdata%\Roblox\Versions
     let mut versions = vec![];
@@ -114,11 +113,7 @@ pub fn replace_sound(friendly_name: String, sound: String) {
             println!("[1/2] Deleted existing death sound");
             // copy a file
             fs::copy(
-                "C:\\Users\\".to_string()
-                    + &env::var(USERNAME).unwrap()
-                    + "\\AppData\\Roaming\\oof-is-back\\sounds\\"
-                    + &sound
-                    + "\\ouch.ogg",
+                "sounds\\".to_string() + &sound + "\\ouch.ogg",
                 version.clone() + "\\content\\sounds\\ouch.ogg",
             )
             .unwrap();
@@ -132,14 +127,29 @@ pub fn replace_sound(friendly_name: String, sound: String) {
                 fs::File::create(version.clone() + "/content/sounds/.ouch").unwrap();
                 // copy a file
                 // check if file exists
-                if fs::metadata("C:\\Users\\".to_string()
-                + &env::var(USERNAME).unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg").is_ok() {
+                if fs::metadata(
+                    "C:\\Users\\".to_string()
+                        + &env::var(USERNAME).unwrap()
+                        + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
+                )
+                .is_ok()
+                {
                     // delete a file
-                    fs::remove_file("C:\\Users\\".to_string()
-                    + &env::var(USERNAME).unwrap()
-                    + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg").unwrap();
+                    fs::remove_file(
+                        "C:\\Users\\".to_string()
+                            + &env::var(USERNAME).unwrap()
+                            + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
+                    )
+                    .unwrap();
                 }
+
+                fs::copy(
+                    "sounds\\".to_string() + &sound + "\\ouch.ogg",
+                    "C:\\Users\\".to_string()
+                        + &env::var(USERNAME).unwrap()
+                        + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
+                );
+
                 if !fs::metadata("C:\\Users\\".to_string()
                 + &env::var("USERNAME").unwrap()
                 + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\oof-is-back-autostart.exe").is_ok() {
@@ -220,13 +230,20 @@ pub fn custom_sound() {
                 fs::File::create(version.clone() + "/content/sounds/.ouch").unwrap();
                 // copy a file
                 // check if file exists
-                if fs::metadata("C:\\Users\\".to_string()
-                + &env::var(USERNAME).unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg").is_ok() {
+                if fs::metadata(
+                    "C:\\Users\\".to_string()
+                        + &env::var(USERNAME).unwrap()
+                        + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
+                )
+                .is_ok()
+                {
                     // delete a file
-                    fs::remove_file("C:\\Users\\".to_string()
-                    + &env::var(USERNAME).unwrap()
-                    + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg").unwrap();
+                    fs::remove_file(
+                        "C:\\Users\\".to_string()
+                            + &env::var(USERNAME).unwrap()
+                            + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
+                    )
+                    .unwrap();
                 }
                 if !fs::metadata("C:\\Users\\".to_string()
                 + &env::var("USERNAME").unwrap()
@@ -260,53 +277,6 @@ pub fn custom_sound() {
 }
 
 #[cfg(target_os = "windows")]
-pub fn download_sound() {
-    use std::{fs::{File, self}, io, env};
-    if fs::metadata(
-        "C:\\Users\\".to_string()
-            + &env::var("USERNAME").unwrap()
-            + "\\AppData\\Roaming\\oof-is-back\\sounds",
-    )
-    .is_ok()
-    {
-    } else {
-        fs::create_dir_all(
-            "C:\\Users\\".to_string()
-                + &env::var("USERNAME").unwrap()
-                + "\\AppData\\Roaming\\oof-is-back\\sounds",
-        )
-        .unwrap();
-        println!("Downloading sounds...");
-        fn download(sound: String) {
-            fs::create_dir_all(
-                "C:\\Users\\".to_string()
-                    + &env::var("USERNAME").unwrap()
-                    + "\\AppData\\Roaming\\oof-is-back\\sounds\\" + &sound,
-            )
-            .unwrap();
-            let mut resp = reqwest::blocking::get(
-                "https://github.com/SegoGithub/oof-is-back/raw/main/sounds/".to_string() + &sound + "/ouch.ogg",
-            )
-            .unwrap();
-            let mut out = File::create(
-                "C:\\Users\\".to_string()
-                    + &env::var("USERNAME").unwrap()
-                    + "\\AppData\\Roaming\\oof-is-back\\sounds\\" + &sound + "\\ouch.ogg",
-            )
-            .unwrap();
-            io::copy(&mut resp, &mut out).unwrap();
-        }
-        download("oof".to_string());
-        download("vineboom".to_string());
-        download("gahdam".to_string());
-        download("hl".to_string());
-        download("oof".to_string());
-        download("hl".to_string());
-        download("mc".to_string());
-        download("yoda".to_string());
-        download("augh".to_string());
-        println!("✅ Done!");
-        // sleep for 2 seconds
-        std::thread::sleep(std::time::Duration::from_secs(2));
-    }
+pub fn fix_terminal() {
+    std::thread::sleep(std::time::Duration::from_millis(100));
 }
