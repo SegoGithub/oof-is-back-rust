@@ -1,8 +1,7 @@
 // WINDOWS ⊞
 
 #[cfg(target_os = "windows")]
-pub fn path() {
-    use console::style;
+pub fn path() -> (String, Vec<()>) {
     use std::{env, fs};
     static USERNAME: &str = "USERNAME";
     // list all the files in %localappdata%\Roblox\Versions
@@ -44,68 +43,52 @@ pub fn replace_sound(friendly_name: String, sound: String) {
         io,
     };
     static USERNAME: &str = "USERNAME";
-    // list all the files in %localappdata%\Roblox\Versions
-    let mut versions = vec![];
-    for entry in fs::read_dir(
-        "C:\\Users\\".to_string()
-            + &env::var(USERNAME).unwrap()
-            + "\\AppData\\Local\\Roblox\\Versions",
-    )
-    .unwrap()
-    {
-        versions.push(entry.unwrap().path().to_str().unwrap().to_string());
+
+    if fs::metadata(path().0 + "\\content\\sounds\\ouch.ogg").is_ok() {
+        fs::remove_file(path().0 + "\\content\\sounds\\ouch.ogg").unwrap();
     }
-    // sort the list of versions
-    versions.sort();
-    // reverse the list of versions
-    versions.reverse();
-    // print the list of versions
-    for version in versions {
-        // check if RobloxPlayerBeta.exe exists
-        if fs::metadata(version.clone() + "\\RobloxPlayerBeta.exe").is_ok() {
+    println!("[1/2] Deleted existing death sound");
+    // copy a file
+    fs::copy(
+        "sounds\\".to_string() + &sound + "\\ouch.ogg",
+        path().0 + "\\content\\sounds\\ouch.ogg",
+    )
+    .unwrap();
+    println!("[2/2] Copied {} sound", friendly_name);
+    println!("✅ Done!");
+    // ASK USER A Y/N QUESTION
+    println!("Would you like to prevent Roblox from replacing your Oof sound? (y/n)");
+    let mut autostart = String::new();
+    io::stdin().read_line(&mut autostart).unwrap();
+    if autostart.trim() == "y" {
+        fs::File::create(path().0 + "/content/sounds/.ouch").unwrap();
+        // copy a file
+        // check if file exists
+        if fs::metadata(
+            "C:\\Users\\".to_string()
+                + &env::var(USERNAME).unwrap()
+                + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
+        )
+        .is_ok()
+        {
             // delete a file
-            fs::remove_file(version.clone() + "\\content\\sounds\\ouch.ogg").unwrap();
-            println!("[1/2] Deleted existing death sound");
-            // copy a file
-            fs::copy(
-                "sounds\\".to_string() + &sound + "\\ouch.ogg",
-                version.clone() + "\\content\\sounds\\ouch.ogg",
+            fs::remove_file(
+                "C:\\Users\\".to_string()
+                    + &env::var(USERNAME).unwrap()
+                    + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
             )
             .unwrap();
-            println!("[2/2] Copied {} sound", friendly_name);
-            println!("✅ Done!");
-            // ASK USER A Y/N QUESTION
-            println!("Would you like to prevent Roblox from replacing your Oof sound? (y/n)");
-            let mut autostart = String::new();
-            io::stdin().read_line(&mut autostart).unwrap();
-            if autostart.trim() == "y" {
-                fs::File::create(version.clone() + "/content/sounds/.ouch").unwrap();
-                // copy a file
-                // check if file exists
-                if fs::metadata(
-                    "C:\\Users\\".to_string()
-                        + &env::var(USERNAME).unwrap()
-                        + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
-                )
-                .is_ok()
-                {
-                    // delete a file
-                    fs::remove_file(
-                        "C:\\Users\\".to_string()
-                            + &env::var(USERNAME).unwrap()
-                            + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
-                    )
-                    .unwrap();
-                }
+        }
 
-                fs::copy(
-                    "sounds\\".to_string() + &sound + "\\ouch.ogg",
-                    "C:\\Users\\".to_string()
-                        + &env::var(USERNAME).unwrap()
-                        + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
-                );
+        fs::copy(
+            "sounds\\".to_string() + &sound + "\\ouch.ogg",
+            "C:\\Users\\".to_string()
+                + &env::var(USERNAME).unwrap()
+                + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
+        )
+        .unwrap();
 
-                if !fs::metadata("C:\\Users\\".to_string()
+        if !fs::metadata("C:\\Users\\".to_string()
                 + &env::var("USERNAME").unwrap()
                 + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\oof-is-back-autostart.exe").is_ok() {
                     let mut resp = reqwest::blocking::get(
@@ -120,13 +103,11 @@ pub fn replace_sound(friendly_name: String, sound: String) {
                     .unwrap();
                     io::copy(&mut resp, &mut out).unwrap();
                 }
-                println!("✅ Done!");
-                // wait 2 seconds
-                std::thread::sleep(std::time::Duration::from_secs(1));
-            } else {
-                println!("✅ Done!");
-            }
-        }
+        println!("✅ Done!");
+        // wait 2 seconds
+        std::thread::sleep(std::time::Duration::from_secs(1));
+    } else {
+        println!("✅ Done!");
     }
 }
 
@@ -139,68 +120,53 @@ pub fn custom_sound() {
         io,
     };
     static USERNAME: &str = "USERNAME";
-    // list all the files in %localappdata%\Roblox\Versions
-    let mut versions = vec![];
-    for entry in fs::read_dir(
-        "C:\\Users\\".to_string()
-            + &env::var(USERNAME).unwrap()
-            + "\\AppData\\Local\\Roblox\\Versions",
-    )
-    .unwrap()
-    {
-        versions.push(entry.unwrap().path().to_str().unwrap().to_string());
-    }
-    // sort the list of versions
-    versions.sort();
-    // reverse the list of versions
-    versions.reverse();
-    // print the list of versions
-    for version in versions {
-        // check if RobloxPlayerBeta.exe exists
-        if fs::metadata(version.clone() + "\\RobloxPlayerBeta.exe").is_ok() {
-            // create a folder in ./
-            fs::create_dir_all("custom_sound").unwrap();
-            println!("A file has been created in the current directory called custom_sound\nPlease put your custom sound in there and name it ouch.ogg");
-            // ASK USER A Y/N QUESTION
-            println!("Have you put your OGG audio file in the custom_sound folder and named it ouch.ogg? (y/n)");
-            let mut custom = String::new();
-            io::stdin().read_line(&mut custom).unwrap();
+    // create a folder in ./
+    fs::create_dir_all("custom_sound").unwrap();
+    println!("A file has been created in the current directory called custom_sound\nPlease put your custom sound in there and name it ouch.ogg");
+    // ASK USER A Y/N QUESTION
+    println!(
+        "Have you put your OGG audio file in the custom_sound folder and named it ouch.ogg? (y/n)"
+    );
+    let mut custom = String::new();
+    io::stdin().read_line(&mut custom).unwrap();
 
+    // delete a file
+    if fs::metadata(path().0 + "\\content\\sounds\\ouch.ogg").is_ok() {
+        fs::remove_file(path().0 + "\\content\\sounds\\ouch.ogg").unwrap();
+    }
+    println!("[1/2] Deleted existing death sound");
+    // copy a file
+    fs::copy(
+        "custom_sound/ouch.ogg",
+        path().0 + "\\content\\sounds\\ouch.ogg",
+    )
+    .unwrap();
+    println!("[2/2] Copied custom sound");
+    println!("✅ Done!");
+    // ASK USER A Y/N QUESTION
+    println!("Would you like to prevent Roblox from replacing your Oof sound? (y/n)");
+    let mut autostart = String::new();
+    io::stdin().read_line(&mut autostart).unwrap();
+    if autostart.trim() == "y" {
+        fs::File::create(path().0 + "/content/sounds/.ouch").unwrap();
+        // copy a file
+        // check if file exists
+        if fs::metadata(
+            "C:\\Users\\".to_string()
+                + &env::var(USERNAME).unwrap()
+                + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
+        )
+        .is_ok()
+        {
             // delete a file
-            fs::remove_file(version.clone() + "\\content\\sounds\\ouch.ogg").unwrap();
-            println!("[1/2] Deleted existing death sound");
-            // copy a file
-            fs::copy(
-                "custom_sound/ouch.ogg",
-                version.clone() + "\\content\\sounds\\ouch.ogg",
+            fs::remove_file(
+                "C:\\Users\\".to_string()
+                    + &env::var(USERNAME).unwrap()
+                    + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
             )
             .unwrap();
-            println!("[2/2] Copied custom sound");
-            println!("✅ Done!");
-            // ASK USER A Y/N QUESTION
-            println!("Would you like to prevent Roblox from replacing your Oof sound? (y/n)");
-            let mut autostart = String::new();
-            io::stdin().read_line(&mut autostart).unwrap();
-            if autostart.trim() == "y" {
-                fs::File::create(version.clone() + "/content/sounds/.ouch").unwrap();
-                // copy a file
-                // check if file exists
-                if fs::metadata(
-                    "C:\\Users\\".to_string()
-                        + &env::var(USERNAME).unwrap()
-                        + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
-                )
-                .is_ok()
-                {
-                    // delete a file
-                    fs::remove_file(
-                        "C:\\Users\\".to_string()
-                            + &env::var(USERNAME).unwrap()
-                            + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
-                    )
-                    .unwrap();
-                }
-                if !fs::metadata("C:\\Users\\".to_string()
+        }
+        if !fs::metadata("C:\\Users\\".to_string()
                 + &env::var("USERNAME").unwrap()
                 + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\oof-is-back-autostart.exe").is_ok() {
                     let mut resp = reqwest::blocking::get(
@@ -215,19 +181,17 @@ pub fn custom_sound() {
                     .unwrap();
                     io::copy(&mut resp, &mut out).unwrap();
                 }
-                fs::copy(
-                    "custom_sound/ouch.ogg",
-                    "C:\\Users\\".to_string()
-                        + &env::var(USERNAME).unwrap()
-                        + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
-                )
-                .unwrap();
-                println!("✅ Done!");
-                std::thread::sleep(std::time::Duration::from_secs(1));
-            } else {
-                println!("✅ Done!");
-            }
-        }
+        fs::copy(
+            "custom_sound/ouch.ogg",
+            "C:\\Users\\".to_string()
+                + &env::var(USERNAME).unwrap()
+                + "\\AppData\\Roaming\\oof-is-back\\ouch.ogg",
+        )
+        .unwrap();
+        println!("✅ Done!");
+        std::thread::sleep(std::time::Duration::from_secs(1));
+    } else {
+        println!("✅ Done!");
     }
 }
 
