@@ -340,7 +340,7 @@ pub fn replace_sound(friendly_name: String, sound: String) {
                     + "/.config/systemd/user/oof-is-back.service",
             )
             .unwrap();
-            let systemd = "[Unit]\nDescription=oof-is-back, preventing Roblox from replacing your oof sound\nAfter=network.target\n\n[Service]\nType=simple\nExecStart=/home/".to_string() + &whoami::username().to_string() +"/.oof-is-back/oof-is-back2";
+            let systemd = "[Unit]\nDescription=oof-is-back, preventing Roblox from replacing your oof sound\nAfter=network.target\n\n[Service]\nType=simple\nExecStart=/home/".to_string() + &whoami::username().to_string() +"/.oof-is-back/oof-is-back2\n\n[Install]\nWantedBy=default.target";
             // write systemd file
             file.write_all(systemd.as_bytes()).unwrap();
         };
@@ -483,7 +483,7 @@ pub fn custom_sound() {
                     + "/.config/systemd/user/oof-is-back.service",
             )
             .unwrap();
-            let systemd = "[Unit]\nDescription=oof-is-back, preventing Roblox from replacing your oof sound\nAfter=network.target\n\n[Service]\nType=simple\nExecStart=/home/".to_string() + &whoami::username().to_string() +"/.oof-is-back/oof-is-back2";
+            let systemd = "[Unit]\nDescription=oof-is-back, preventing Roblox from replacing your oof sound\nAfter=network.target\n\n[Service]\nType=simple\nExecStart=/home/".to_string() + &whoami::username().to_string() +"/.oof-is-back/oof-is-back2\n\n[Install]\nWantedBy=default.target";
             // write systemd file
             file.write_all(systemd.as_bytes()).unwrap();
         };
