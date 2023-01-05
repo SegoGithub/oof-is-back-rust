@@ -1,15 +1,17 @@
+// path changed in new roblox update
+// it is now in C:\Program Files (x86)\Roblox
+// instead of %localappdata/Roblox%
+
 // WINDOWS ⊞
 
 #[cfg(target_os = "windows")]
 pub fn path() -> (String, Vec<()>) {
     use std::{env, fs};
     static USERNAME: &str = "USERNAME";
-    // list all the files in %localappdata%\Roblox\Versions
+    // list all the files in C:\Program Files (x86)\Roblox\Versions
     let mut versions = vec![];
     for entry in fs::read_dir(
-        "C:\\Users\\".to_string()
-            + &env::var(USERNAME).unwrap()
-            + "\\AppData\\Local\\Roblox\\Versions",
+        "C:\\Program Files (x86)\\Roblox\\Versions",
     )
     .unwrap()
     {
@@ -199,14 +201,12 @@ pub fn custom_sound() {
 #[cfg(target_os = "linux")]
 pub fn path() -> (String, Vec<()>) {
     use std::fs;
-    // list all the files in ~/.local/share/grapejuice/prefixes/player/drive_c/users/USERNAME/AppData/Local/Roblox/Versions
+    // list all the files in ~/.local/share/grapejuice/prefixes/player/drive_c/Program Files (x86)/Roblox/Versions
     let mut versions = vec![];
     for entry in fs::read_dir(
         "/home/".to_string()
             + &whoami::username()
-            + "/.local/share/grapejuice/prefixes/player/drive_c/users/"
-            + &whoami::username()
-            + "/AppData/Local/Roblox/Versions",
+            + "/.local/share/grapejuice/prefixes/player/drive_c/Program Files (x86)/Roblox/Versions",
     )
     .unwrap()
     {
@@ -245,7 +245,6 @@ pub fn replace_sound(friendly_name: String, sound: String) {
     // delete a file
     fs::remove_file(path().0.to_string() + "/content/sounds/ouch.ogg").unwrap();
     println!("[1/2] Deleted existing death sound");
-    // copy a file
     fs::copy(
         "sounds/".to_string() + &sound + "/ouch.ogg",
         path().0.to_string() + "/content/sounds/ouch.ogg",
