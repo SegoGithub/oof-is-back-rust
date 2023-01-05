@@ -6,8 +6,7 @@
 
 #[cfg(target_os = "windows")]
 pub fn path() -> (String, Vec<()>) {
-    use std::{env, fs};
-    static USERNAME: &str = "USERNAME";
+    use std::{fs};
     // list all the files in C:\Program Files (x86)\Roblox\Versions
     let mut versions = vec![];
     for entry in fs::read_dir(
