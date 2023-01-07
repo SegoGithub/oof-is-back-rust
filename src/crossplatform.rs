@@ -6,45 +6,14 @@
 
 #[cfg(target_os = "windows")]
 pub fn path() -> (String, Vec<()>) {
+    use std::{fs};
+    // list all the files in C:\Program Files (x86)\Roblox\Versions
     let mut versions = vec![];
     for entry in fs::read_dir(
-        // check if the directory exists
-        if fs::metadata(
-            "C:\\Program Files (x86)\\Roblox\\Versions",
-        )
-        .is_ok()
-        {
-            "C:\\Program Files (x86)\\Roblox\\Versions"
-        } else {
-            "C:\\Users\\".to_string()
-            + &env::var(USERNAME).unwrap()
-            + "\\AppData\\Local\\Roblox\\Versions"
-        },
-
+        "C:\\Program Files (x86)\\Roblox\\Versions",
     )
     .unwrap()
     {
-        versions.push(entry.unwrap().path().to_str().unwrap().to_string());
-    }
-    // sort the list of versions
-    versions.sort();
-    // reverse the list of versions
-    versions.reverse();
-    // print the list of versions
-    for version in versions {
-        // check if RobloxPlayerBeta.exe exists
-        if fs::metadata(version.clone() + "/RobloxPlayerBeta.exe").is_ok() {
-            return (version.to_string(), vec![]);
-        }
-    }
-    return ("".to_string(), vec![]);
-    // I DO NOT KNOW RUST
-    // I DO NOT KNOW WHY THIS WORKS
-
-    use std::fs;
-    // list all the files in C:\Program Files (x86)\Roblox\Versions
-    let mut versions = vec![];
-    for entry in fs::read_dir("C:\\Program Files (x86)\\Roblox\\Versions").unwrap() {
         versions.push(entry.unwrap().path().to_str().unwrap().to_string());
     }
     // sort the list of versions
@@ -231,27 +200,12 @@ pub fn custom_sound() {
 #[cfg(target_os = "linux")]
 pub fn path() -> (String, Vec<()>) {
     use std::fs;
+    // list all the files in ~/.local/share/grapejuice/prefixes/player/drive_c/Program Files (x86)/Roblox/Versions
     let mut versions = vec![];
     for entry in fs::read_dir(
-        // check if the directory exists
-        if fs::metadata(
-            "/home/".to_string()
-                + &whoami::username()
-                + "/.local/share/grapejuice/prefixes/player/drive_c/Program Files (x86)/Roblox/Versions",
-        )
-        .is_ok()
-        {
-            "/home/".to_string()
-                + &whoami::username()
-                + "/.local/share/grapejuice/prefixes/player/drive_c/Program Files (x86)/Roblox/Versions"
-        } else {
-            "/home/".to_string()
+        "/home/".to_string()
             + &whoami::username()
-            + "/.local/share/grapejuice/prefixes/player/drive_c/users/"
-            + &whoami::username()
-            + "/AppData/Local/Roblox/Versions"
-        },
-
+            + "/.local/share/grapejuice/prefixes/player/drive_c/Program Files (x86)/Roblox/Versions",
     )
     .unwrap()
     {
