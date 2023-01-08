@@ -523,3 +523,116 @@ pub fn custom_sound() {
     let mut autostart = String::new();
     io::stdin().read_line(&mut autostart).unwrap();
 }
+
+#[cfg(target_os = "macos")]
+pub fn path() -> (String, Vec<String>) {
+    use std::fs;
+    // i think macos only has 1 possible path for roblox
+    // please correct me
+    // this is my email; contact@sego.app
+    return (
+        "/Applications/Roblox.app/Contents/Resources".to_string(),
+        vec![],
+    );
+    // also...
+    // I DONT KNOW RUST AND I DONT KNOW WHY THIS WORKS
+}
+
+#[cfg(target_os = "macos")]
+pub fn play_sound() {
+    open::that(path().0.to_string() + &"/content/sounds/ouch.ogg").unwrap();
+}
+
+#[cfg(target_os = "macos")]
+pub fn replace_sound(friendly_name: String, sound: String) {
+    use std::{fs, process::Command};
+
+    println!("You chose {}", friendly_name);
+    // run csrutil status to check if SIP is disabled
+    let output = Command::new("csrutil")
+        .arg("status")
+        .output()
+        .expect("failed to run: csrutil status");
+    let output = String::from_utf8_lossy(&output.stdout);
+    if output.contains("enabled") {
+        println!("SIP is enabled, enlightening user...");
+        println!("This application modifies files in the Applications folder, which requires Apple's System Integrity Protection to be disabled. Please follow the instructions on https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection and run the app again once you have disabled SIP.");
+        std::process::exit(0);
+    } else {
+        println!("SIP is disabled, continuing...");
+    }
+
+    if fs::metadata(path().0 + "/content/sounds/ouch.ogg").is_ok() {
+        fs::remove_file(path().0 + "/content/sounds/ouch.ogg").unwrap();
+    }
+    println!("[1/2] Deleted existing death sound");
+    // copy a file
+    fs::copy(
+        "sounds/".to_string() + &sound + "/ouch.ogg",
+        path().0 + "/content/sounds/ouch.ogg",
+    )
+    .unwrap();
+    println!("[2/2] Copied {} sound", friendly_name);
+    // this empty file is used to check if the sound has been replaced
+    if !fs::metadata(path().0.to_string() + "/content/sounds/.ouch").is_ok() {
+        fs::File::create(path().0.to_string() + "/content/sounds/.ouch").unwrap();
+    }
+    println!("✅ Done!");
+
+    println!(
+        "Preventing roblox from replacing your oof sound is currently not supported on macos."
+    );
+
+    std::thread::sleep(std::time::Duration::from_secs(1));
+}
+
+#[cfg(target_os = "macos")]
+pub fn custom_sound() {
+    println!("You chose a custom sound");
+    use std::{fs, io, process::Command};
+    // run csrutil status to check if SIP is disabled
+    let output = Command::new("csrutil")
+        .arg("status")
+        .output()
+        .expect("failed to run: csrutil status");
+    let output = String::from_utf8_lossy(&output.stdout);
+    if output.contains("enabled") {
+        println!("SIP is enabled, enlightening user...");
+        println!("This application modifies files in the Applications folder, which requires Apple's System Integrity Protection to be disabled. Please follow the instructions on https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection and run the app again once you have disabled SIP.");
+        std::process::exit(0);
+    } else {
+        println!("SIP is disabled, continuing...");
+    }
+    // create a folder in ./
+    fs::create_dir_all("custom_sound").unwrap();
+    println!("A file has been created in the current directory called custom_sound\nPlease put your custom sound in there and name it ouch.ogg");
+    // ASK USER A Y/N QUESTION
+    println!(
+        "Have you put your OGG audio file in the custom_sound folder and named it ouch.ogg? (y/n)"
+    );
+    let mut custom = String::new();
+    io::stdin().read_line(&mut custom).unwrap();
+
+    // delete a file
+    if fs::metadata(path().0 + "/content/sounds/ouch.ogg").is_ok() {
+        fs::remove_file(path().0 + "/content/sounds/ouch.ogg").unwrap();
+    }
+    println!("[1/2] Deleted existing death sound");
+    // copy a file
+    fs::copy(
+        "custom_sound/ouch.ogg",
+        path().0 + "/content/sounds/ouch.ogg",
+    )
+    .unwrap();
+    println!("[2/2] Copied custom sound");
+    if !fs::metadata(path().0.to_string() + "/content/sounds/.ouch").is_ok() {
+        fs::File::create(path().0.to_string() + "/content/sounds/.ouch").unwrap();
+    }
+    println!("✅ Done!");
+
+    println!(
+        "Preventing roblox from replacing your oof sound is currently not supported on macos."
+    );
+
+    std::thread::sleep(std::time::Duration::from_secs(1));
+}
