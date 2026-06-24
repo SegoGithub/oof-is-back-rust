@@ -1,3 +1,4 @@
+## This project has been abandoned, please use a Roblox bootstrapper like Fishstrap for more customization.
 <p align="center"><img src="https://github.com/SegoGithub/oof-is-back/blob/main/icon256.png?raw=true" /></p>
 <p align="center">Change your Roblox death sound to a different sound included in the app or the original oof sound.</p>
 <p align="center"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" />
